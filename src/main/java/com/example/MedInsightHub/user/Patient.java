@@ -19,13 +19,11 @@ public class Patient {
     @OneToOne
     @JoinColumn(name = "patient_id" , referencedColumnName = "user_id")
     private User user;
-    private Doctor doctor;
     private Date date_of_birth;
     @Enumerated(value = EnumType.STRING)
     private UserGender gender;
 
-    public Patient(Doctor doctor, Date date_of_birth, UserGender gender) {
-        this.doctor=doctor;
+    public Patient(Date date_of_birth, UserGender gender) {
         this.date_of_birth = date_of_birth;
         this.gender = gender;
     }

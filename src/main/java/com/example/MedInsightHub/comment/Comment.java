@@ -36,4 +36,15 @@ public class Comment {
     private String comment_content;
     private Date date_commented;
     private int likes_count;
+    private int replies_count;
+
+    public Comment(long replying_to_id, ReplyTo reply_to, Doctor doctor, String comment_content, Date date_commented, int likes_count, int replies_count) {
+        this.replying_to_id = replying_to_id;
+        this.reply_to = reply_to;
+        this.doctor = doctor;
+        this.comment_content = comment_content;
+        this.date_commented = date_commented;
+        this.likes_count = likes_count;
+        this.replies_count = replies_count;
+    }
 }

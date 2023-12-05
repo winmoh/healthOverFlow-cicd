@@ -25,10 +25,10 @@ public class Case {
             generator = "case_sequence"
     )
     private long case_id;
-    @OneToOne
+    @OneToMany
     @JoinColumn(name = "post_id", referencedColumnName = "post_id")
     private Post post;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "patient_id", referencedColumnName = "patient_id")
     private Patient patient;
     private String analysis_content;
