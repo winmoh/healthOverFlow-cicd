@@ -39,7 +39,9 @@ public class Post {
     private String post_text_content;
     private List<String> post_images_content;
     private List<String> post_documents_content;
+    @Enumerated(value = EnumType.STRING)
     private PostType post_type;
+    @Enumerated(value = EnumType.STRING)
     private PostStatus post_status;
     private List<String> tags;
     private int views_count;

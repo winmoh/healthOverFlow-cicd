@@ -25,6 +25,8 @@ public class User {
             generator = "user_sequence"
     )
     private long id;
+    private String firstname;
+    private String lastname;
     private String username;
     private String password;
     private String bio;
@@ -33,14 +35,23 @@ public class User {
     private UserType user_type;
     private Date registration_date;
     private Date last_login_date;
+    private String profile_pic;
+    private int connections_count;
 
-    public User(String username, String password, String bio, String email, UserType user_type,Date registration_date, Date last_login_date) {
+
+    public User(String firstname, String lastname, String username, String password,
+                String bio, String email, UserType user_type, Date registration_date,
+                Date last_login_date, String profile_pic, int connections_count) {
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.username = username;
         this.password = password;
         this.bio = bio;
         this.email = email;
-        this.user_type=user_type;
-        this.registration_date=registration_date;
-        this.last_login_date=last_login_date;
+        this.user_type = user_type;
+        this.registration_date = registration_date;
+        this.last_login_date = last_login_date;
+        this.profile_pic = profile_pic;
+        this.connections_count = connections_count;
     }
 }

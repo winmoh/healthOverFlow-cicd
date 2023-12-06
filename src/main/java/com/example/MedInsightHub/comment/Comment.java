@@ -28,7 +28,7 @@ public class Comment {
     private long comment_id;
     @Column(nullable = false,unique = true)
     private long replying_to_id;
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private ReplyTo reply_to;
     @OneToOne
     @JoinColumn(name = "doctor_id", referencedColumnName = "doctor_id")
