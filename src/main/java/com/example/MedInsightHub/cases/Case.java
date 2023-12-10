@@ -1,6 +1,7 @@
 package com.example.MedInsightHub.cases;
 
 import com.example.MedInsightHub.post.Post;
+import com.example.MedInsightHub.user.Doctor;
 import com.example.MedInsightHub.user.Patient;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,8 +27,8 @@ public class Case {
     )
     private long case_id;
     @OneToMany
-    @JoinColumn(name = "post_id", referencedColumnName = "post_id")
-    private Post post;
+    @JoinColumn(name = "doctor_id", referencedColumnName = "doctor_id")
+    private Doctor doctor;
     @ManyToOne
     @JoinColumn(name = "patient_id", referencedColumnName = "patient_id")
     private Patient patient;
@@ -35,8 +36,8 @@ public class Case {
     private CaseStatus case_status;
 
 
-    public Case(Post post, Patient patient, String analysis_content, CaseStatus case_status) {
-        this.post = post;
+    public Case(Doctor doctor, Patient patient, String analysis_content, CaseStatus case_status) {
+        this.doctor = doctor;
         this.patient = patient;
         this.analysis_content = analysis_content;
         this.case_status = case_status;
