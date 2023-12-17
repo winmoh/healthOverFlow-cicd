@@ -1,6 +1,5 @@
 package com.example.MedInsightHub.cases;
 
-import com.example.MedInsightHub.post.Post;
 import com.example.MedInsightHub.user.Doctor;
 import com.example.MedInsightHub.user.Patient;
 import jakarta.persistence.*;
@@ -33,13 +32,17 @@ public class Case {
     @JoinColumn(name = "patient_id", referencedColumnName = "patient_id")
     private Patient patient;
     private String analysis_content;
+    private boolean include_document;
+    private String case_document_url;
     private CaseStatus case_status;
 
 
-    public Case(Doctor doctor, Patient patient, String analysis_content, CaseStatus case_status) {
+    public Case(Doctor doctor, Patient patient, String analysis_content, boolean include_document, String case_document_url, CaseStatus case_status) {
         this.doctor = doctor;
         this.patient = patient;
         this.analysis_content = analysis_content;
+        this.include_document = include_document;
+        this.case_document_url = case_document_url;
         this.case_status = case_status;
     }
 }

@@ -15,7 +15,8 @@ public class CaseController {
     @GetMapping
     public List<Case> getDoctorCases(){
         // TODO get doctor id from request token and pass it as parameter
-        return caseService.getDoctorCases(0);
+        long doctor_id=0;
+        return caseService.getDoctorCases(doctor_id);
     }
 
     @PostMapping
@@ -26,13 +27,15 @@ public class CaseController {
     @PutMapping
     public void updateCaseByDoctor(@RequestParam UpdateCase update_case){
         // TODO get doctor id from request token and pass it as parameter
-        caseService.updateCaseByDoctor(update_case,0);
+        long doctor_id=0;
+        caseService.updateCaseByDoctor(update_case,doctor_id);
     }
 
     @DeleteMapping
     public void deleteCaseByDoctor(@RequestParam long case_id){
         // TODO get doctor id from request token and pass it as parameter
-        caseService.deleteCaseByDoctor(case_id,0);
+        long doctor_id=0;
+        caseService.deleteCaseByDoctor(case_id,doctor_id);
     }
 
 

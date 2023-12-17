@@ -12,6 +12,10 @@ public enum NotificationType {
     CaseModified,
     CaseResolved,
     CaseDeleted,
+    MessageSent,
+    MessageReceived,
+    MessageRead,
     NewComment,
+    NewReply,
     NewLike
 }
