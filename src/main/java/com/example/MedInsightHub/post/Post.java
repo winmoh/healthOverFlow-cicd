@@ -37,8 +37,8 @@ public class Post {
     private Case aCase;
     private String title;
     private String post_text_content;
-    private List<String> post_images_content;
-    private List<String> post_documents_content;
+    private boolean include_document;
+    private String post_document_url;
     @Enumerated(value = EnumType.STRING)
     private PostType post_type;
     @Enumerated(value = EnumType.STRING)
@@ -49,13 +49,13 @@ public class Post {
     private int comments_count;
     private Date date_posted;
 
-    public Post(Doctor doctor, Case aCase, String title, String post_text_content,List<String> post_images_content, List<String> post_documents_content, PostType post_type, PostStatus post_status, List<String> tags, int views_count, int likes_count, int comments_count, Date date_posted) {
+    public Post(Doctor doctor, Case aCase, String title, String post_text_content, boolean include_document, String post_document_url, PostType post_type, PostStatus post_status, List<String> tags, int views_count, int likes_count, int comments_count, Date date_posted) {
         this.doctor = doctor;
         this.aCase = aCase;
         this.title = title;
         this.post_text_content = post_text_content;
-        this.post_images_content = post_images_content;
-        this.post_documents_content = post_documents_content;
+        this.include_document = include_document;
+        this.post_document_url = post_document_url;
         this.post_type = post_type;
         this.post_status = post_status;
         this.tags = tags;

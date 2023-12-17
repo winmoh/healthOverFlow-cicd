@@ -1,7 +1,9 @@
 package com.example.MedInsightHub.cases;
 
 import com.example.MedInsightHub.user.Doctor;
+import com.example.MedInsightHub.user.User;
 import com.example.MedInsightHub.user.repositories.DoctorRepository;
+import com.example.MedInsightHub.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

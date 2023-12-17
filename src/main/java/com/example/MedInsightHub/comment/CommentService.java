@@ -1,7 +1,10 @@
 package com.example.MedInsightHub.comment;
 
+import com.example.MedInsightHub.post.Post;
+import com.example.MedInsightHub.post.PostRepository;
 import com.example.MedInsightHub.user.Doctor;
 import com.example.MedInsightHub.user.repositories.DoctorRepository;
+import com.example.MedInsightHub.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,24 +17,52 @@ public class CommentService {
 
     private CommentRepository commentRepository;
     private DoctorRepository doctorRepository;
+    private PostRepository postRepository;
 
-    public void commentOnPost(long post_id, String comment_text, long doctor_id, ReplyTo reply_to) {
+    public List<Comment> getCommentsReplies(long post_comment_id){
+        return commentRepository.replyingComments(post_comment_id);
+    }
+
+    public void commentOn(long post_comment_id, String comment_text, long doctor_id, ReplyTo reply_to) {
         Doctor doctor = doctorRepository.findById(doctor_id).orElseThrow();
+        {
+            if (reply_to==ReplyTo.Comment) {
+                commentRepository.findById(post_comment_id).orElseThrow(
+                        () ->
+                            new IllegalStateException("no comment with id "+post_comment_id+" was found!!!")
+                );
+            }
+            else {
+                postRepository.findById(post_comment_id).orElseThrow(
+                        () ->
+                                new IllegalStateException("no post with id "+post_comment_id+" was found!!!")
+                );
+            }
+        }
         Comment comment = new Comment();
         comment.setComment_text_content(comment_text);
         comment.setDoctor(doctor);
-        comment.setReplying_to_id(post_id);
+        comment.setReplying_to_id(post_comment_id);
         comment.setLikes_count(0);
         comment.setReply_to(reply_to);
         comment.setReplies_count(0);
         comment.setDate_commented(LocalDateTime.now());
         commentRepository.save(comment);
+        if (reply_to==ReplyTo.Comment) {
+            Comment replying_to_comment = commentRepository.findById(post_comment_id).orElseThrow();
+            replying_to_comment.setReplies_count(replying_to_comment.getReplies_count()+1);
+            commentRepository.save(replying_to_comment);
+        } else {
+            Post replying_to_post = postRepository.findById(post_comment_id).orElseThrow();
+            replying_to_post.setComments_count(replying_to_post.getComments_count()+1);
+            postRepository.save(replying_to_post);
+        }
         // TODO notify the comment or post owner about the reply (NewComment or NewReply)
     }
 
     public boolean commentBelongsToDoctor(long comment_id, long doctor_id){
         Comment comment = commentRepository.findById(comment_id).orElseThrow();
-        return comment.getDoctor().getUser().getId()==doctor_id;
+        return comment.getDoctor().getUser().getUser_id()==doctor_id;
     }
 
     public void updateComment(long comment_id, String comment_text, long doctor_id) {
@@ -56,6 +87,16 @@ public class CommentService {
         List<Comment> replying_comments = commentRepository.replyingComments(comment_id);
         for(Comment reply : replying_comments){
             deleteComment(reply.getComment_id());
+        }
+        Comment comment = commentRepository.findById(comment_id).orElseThrow();
+        if (comment.getReply_to()==ReplyTo.Comment) {
+            Comment reply_to_comment = commentRepository.findById(comment.getReplying_to_id()).orElseThrow();
+            reply_to_comment.setReplies_count(reply_to_comment.getReplies_count()-1);
+            commentRepository.save(reply_to_comment);
+        } else {
+            Post reply_to_post = postRepository.findById(comment.getReplying_to_id()).orElseThrow();
+            reply_to_post.setComments_count(reply_to_post.getComments_count()-1);
+            postRepository.save(reply_to_post);
         }
         commentRepository.deleteById(comment_id);
     }

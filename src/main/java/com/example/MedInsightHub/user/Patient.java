@@ -14,16 +14,19 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Patient {
-
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long patient_id;
+
     @OneToOne
-    @JoinColumn(name = "patient_id" , referencedColumnName = "user_id")
+    @JoinColumn(name = "user_id" , referencedColumnName = "user_id")
     private User user;
     private Date date_of_birth;
     @Enumerated(value = EnumType.STRING)
     private UserGender gender;
 
-    public Patient(Date date_of_birth, UserGender gender) {
+    public Patient(User user, Date date_of_birth, UserGender gender) {
+        this.user = user;
         this.date_of_birth = date_of_birth;
         this.gender = gender;
     }
