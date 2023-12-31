@@ -30,7 +30,7 @@ public class Comment {
     private long replying_to_id;
     @Enumerated(value = EnumType.STRING)
     private ReplyTo reply_to;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "doctor_id", referencedColumnName = "doctor_id")
     private Doctor doctor;
     private String comment_text_content;

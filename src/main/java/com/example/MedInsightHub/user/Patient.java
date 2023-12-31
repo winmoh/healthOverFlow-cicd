@@ -15,7 +15,15 @@ import java.util.Date;
 @AllArgsConstructor
 public class Patient {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(
+            name = "patient_sequence",
+            sequenceName = "patient_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "patient_sequence"
+    )
     private Long patient_id;
 
     @OneToOne

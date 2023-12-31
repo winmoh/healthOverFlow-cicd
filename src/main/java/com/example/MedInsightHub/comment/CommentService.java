@@ -10,17 +10,34 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CommentService {
 
-    private CommentRepository commentRepository;
-    private DoctorRepository doctorRepository;
-    private PostRepository postRepository;
+    private final CommentRepository commentRepository;
+    private final DoctorRepository doctorRepository;
+    private final PostRepository postRepository;
 
-    public List<Comment> getCommentsReplies(long post_comment_id){
-        return commentRepository.replyingComments(post_comment_id);
+    public List<CommentDTO> getCommentsReplies(long post_comment_id){
+        return commentRepository.replyingComments(post_comment_id).stream().map(
+                comment ->
+                    new CommentDTO(
+                            comment.getComment_id(),
+                            comment.getDoctor().getDoctor_id(),
+                            comment.getDoctor().getUser().getUsername(),
+                            comment.getDoctor().getUser().getFirstname(),
+                            comment.getDoctor().getUser().getLastname(),
+                            comment.getDoctor().getUser().getProfile_pic_url(),
+                            comment.getComment_text_content(),
+                            comment.getDate_commented(),
+                            comment.isComment_text_edited(),
+                            comment.getDate_edited(),
+                            comment.getLikes_count(),
+                            comment.getReplies_count()
+                    )
+        ).collect(Collectors.toList());
     }
 
     public void commentOn(long post_comment_id, String comment_text, long doctor_id, ReplyTo reply_to) {

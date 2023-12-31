@@ -13,7 +13,15 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Doctor {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(
+            name = "doctor_sequence",
+            sequenceName = "doctor_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "doctor_sequence"
+    )
     private Long doctor_id;
 
     @OneToOne

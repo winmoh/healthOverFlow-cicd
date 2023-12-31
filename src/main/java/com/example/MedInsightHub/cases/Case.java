@@ -3,10 +3,7 @@ package com.example.MedInsightHub.cases;
 import com.example.MedInsightHub.user.Doctor;
 import com.example.MedInsightHub.user.Patient;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity( name = "_case" )
 @NoArgsConstructor
@@ -25,7 +22,7 @@ public class Case {
             generator = "case_sequence"
     )
     private long case_id;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "doctor_id", referencedColumnName = "doctor_id")
     private Doctor doctor;
     @ManyToOne
@@ -33,6 +30,7 @@ public class Case {
     private Patient patient;
     private String analysis_content;
     private String case_document_url;
+    @Enumerated(value = EnumType.STRING)
     private CaseStatus case_status;
 
 
