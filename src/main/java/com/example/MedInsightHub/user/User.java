@@ -37,11 +37,13 @@ public class User {
     private Date last_login_date;
     private String profile_pic_url;
     private int connections_count;
+    private boolean online;
 
 
     public User(String firstname, String lastname, String username, String password,
                 String bio, String email, UserType user_type, Date registration_date,
-                Date last_login_date, String profile_pic_url, int connections_count) {
+                Date last_login_date, String profile_pic_url, int connections_count,
+                boolean online) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
@@ -53,5 +55,6 @@ public class User {
         this.last_login_date = last_login_date;
         this.profile_pic_url = profile_pic_url;
         this.connections_count = connections_count;
+        this.online = online;
     }
 }

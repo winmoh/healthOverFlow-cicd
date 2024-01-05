@@ -19,14 +19,14 @@ public class CommentController {
     }
 
     @PostMapping
-    public void commentOn(@RequestBody Map<String,Object> comment_input){
+    public List<CommentDTO> commentOn(@RequestBody Map<String,Object> comment_input){
         // TODO get doctor id from request token and pass it as parameter
         long doctor_id=1;
         ReplyTo reply_to = ReplyTo.Post;
         if(comment_input.get("reply_to").equals("Comment")){
             reply_to = ReplyTo.Comment;
         }
-        commentService.commentOn(Long.valueOf(comment_input.get("post_comment_id").toString()),
+        return commentService.commentOn(Long.valueOf(comment_input.get("post_comment_id").toString()),
                 (String) comment_input.get("comment_text"),
                 doctor_id,
                 reply_to);

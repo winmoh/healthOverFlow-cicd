@@ -12,4 +12,5 @@ public class DoctorDTO {
     private Long user_id;
     private String specialty;
     private int years_of_experience;
+    private boolean online;
 }

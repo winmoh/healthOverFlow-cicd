@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -26,16 +26,16 @@ public class Connection {
             generator = "connection_sequence"
     )
     private long connection_id;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "sender_id", referencedColumnName = "user_id")
     private User user_sender;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "receiver_id", referencedColumnName = "user_id")
     private User user_receiver;
-    private Date date_sent;
+    private LocalDateTime date_sent;
     private ConnectionStatus connection_status;
 
-    public Connection(User user_sender, User user_receiver, Date date_sent, ConnectionStatus connection_status) {
+    public Connection(User user_sender, User user_receiver, LocalDateTime date_sent, ConnectionStatus connection_status) {
         this.user_sender = user_sender;
         this.user_receiver = user_receiver;
         this.date_sent = date_sent;

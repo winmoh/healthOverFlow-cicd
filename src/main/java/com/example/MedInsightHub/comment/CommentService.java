@@ -40,7 +40,7 @@ public class CommentService {
         ).collect(Collectors.toList());
     }
 
-    public void commentOn(long post_comment_id, String comment_text, long doctor_id, ReplyTo reply_to) {
+    public List<CommentDTO> commentOn(long post_comment_id, String comment_text, long doctor_id, ReplyTo reply_to) {
         Doctor doctor = doctorRepository.findById(doctor_id).orElseThrow();
         {
             if (reply_to==ReplyTo.Comment) {
@@ -74,6 +74,20 @@ public class CommentService {
             replying_to_post.setComments_count(replying_to_post.getComments_count()+1);
             postRepository.save(replying_to_post);
         }
+        return List.of(new CommentDTO(
+                comment.getComment_id(),
+                comment.getDoctor().getDoctor_id(),
+                comment.getDoctor().getUser().getUsername(),
+                comment.getDoctor().getUser().getFirstname(),
+                comment.getDoctor().getUser().getLastname(),
+                comment.getDoctor().getUser().getProfile_pic_url(),
+                comment.getComment_text_content(),
+                comment.getDate_commented(),
+                comment.isComment_text_edited(),
+                comment.getDate_edited(),
+                comment.getLikes_count(),
+                comment.getReplies_count()
+        ));
         // TODO notify the comment or post owner about the reply (NewComment or NewReply)
     }
 
@@ -101,6 +115,7 @@ public class CommentService {
     }
 
     private void deleteComment(long comment_id){
+        // TODO remove all likes related the comment
         List<Comment> replying_comments = commentRepository.replyingComments(comment_id);
         for(Comment reply : replying_comments){
             deleteComment(reply.getComment_id());

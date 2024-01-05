@@ -18,10 +18,11 @@ public class DoctorService {
     public List<DoctorDTO> getDoctors() {
         return doctorRepository.findAll().stream().map(
                 doctor -> new DoctorDTO(
-                    doctor.getDoctor_id(),
-                    doctor.getUser().getUser_id(),
-                    doctor.getSpecialty(),
-                    doctor.getYears_of_experience()
+                        doctor.getDoctor_id(),
+                        doctor.getUser().getUser_id(),
+                        doctor.getSpecialty(),
+                        doctor.getYears_of_experience(),
+                        doctor.getUser().isOnline()
                 )
         ).collect(Collectors.toList());
     }
