@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity(name = "_user")
 @NoArgsConstructor
@@ -33,16 +33,16 @@ public class User {
     private String email;
     @Enumerated(value = EnumType.STRING)
     private UserType user_type;
-    private Date registration_date;
-    private Date last_login_date;
+    private LocalDateTime registration_date;
+    private LocalDateTime last_login_date;
     private String profile_pic_url;
     private int connections_count;
     private boolean online;
 
 
     public User(String firstname, String lastname, String username, String password,
-                String bio, String email, UserType user_type, Date registration_date,
-                Date last_login_date, String profile_pic_url, int connections_count,
+                String bio, String email, UserType user_type, LocalDateTime registration_date,
+                LocalDateTime last_login_date, String profile_pic_url, int connections_count,
                 boolean online) {
         this.firstname = firstname;
         this.lastname = lastname;
