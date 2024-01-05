@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -47,9 +48,9 @@ public class Post {
     private int views_count;
     private int likes_count;
     private int comments_count;
-    private Date date_posted;
+    private LocalDateTime date_posted;
 
-    public Post(Doctor doctor, Case aCase, String title, String post_text_content, boolean include_document, String post_document_url, PostType post_type, PostStatus post_status, List<String> tags, int views_count, int likes_count, int comments_count, Date date_posted) {
+    public Post(Doctor doctor, Case aCase, String title, String post_text_content, boolean include_document, String post_document_url, PostType post_type, PostStatus post_status, List<String> tags, int views_count, int likes_count, int comments_count, LocalDateTime date_posted) {
         this.doctor = doctor;
         this.aCase = aCase;
         this.title = title;

@@ -36,7 +36,6 @@ public class ConnectionService {
     }
 
     public void connectTo(long sender_id, long receiver_id) {
-        // TODO find if the patient(sender) has a connection already
         User receiver = userRepository.findById(receiver_id).orElseThrow(
                 () -> new IllegalStateException("user with id "+receiver_id+" not found")
         );
