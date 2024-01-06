@@ -24,6 +24,7 @@ public class DoctorService {
                 doctor -> new DoctorDTO(
                         doctor.getDoctor_id(),
                         doctor.getUser().getUser_id(),
+                        doctor.getUser().getProfile_pic_url(),
                         doctor.getSpecialty(),
                         doctor.getYears_of_experience(),
                         doctor.getUser().isOnline()

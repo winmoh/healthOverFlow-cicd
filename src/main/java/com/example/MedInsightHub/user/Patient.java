@@ -6,8 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.time.LocalDate;
 
 
 @Entity
@@ -31,11 +30,11 @@ public class Patient {
     @OneToOne
     @JoinColumn(name = "user_id" , referencedColumnName = "user_id")
     private User user;
-    private LocalDateTime date_of_birth;
+    private LocalDate date_of_birth;
     @Enumerated(value = EnumType.STRING)
     private UserGender gender;
 
-    public Patient(User user, LocalDateTime date_of_birth, UserGender gender) {
+    public Patient(User user, LocalDate date_of_birth, UserGender gender) {
         this.user = user;
         this.date_of_birth = date_of_birth;
         this.gender = gender;

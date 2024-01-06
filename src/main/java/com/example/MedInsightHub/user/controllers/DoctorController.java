@@ -24,7 +24,7 @@ public class DoctorController {
     }
 
     @GetMapping(path = "profile/{doctor_id}")
-    public DoctorProfileDTO getDctorProfile(@PathVariable(name = "doctor_id") long doctor_id){
+    public DoctorProfileDTO getDoctorProfile(@PathVariable(name = "doctor_id") long doctor_id){
         return doctorService.getDoctorProfile(doctor_id);
     }
 
