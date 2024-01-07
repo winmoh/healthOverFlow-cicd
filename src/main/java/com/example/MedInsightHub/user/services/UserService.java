@@ -1,13 +1,14 @@
 package com.example.MedInsightHub.user.services;
 
-import com.example.MedInsightHub.user.User;
-import com.example.MedInsightHub.user.UserType;
+import com.example.MedInsightHub.user.*;
 import com.example.MedInsightHub.user.dto.UserDTO;
 import com.example.MedInsightHub.user.repositories.DoctorRepository;
 import com.example.MedInsightHub.user.repositories.PatientRepository;
 import com.example.MedInsightHub.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -40,5 +41,52 @@ public class UserService {
         }
 
         return userDTO;
+    }
+
+    public void updateProfile(UpdateProfileRequest updateProfileRequest, long user_id) {
+        User user = userRepository.findById(user_id).orElseThrow();
+        if (updateProfileRequest.getFirstname()!=null && !updateProfileRequest.getFirstname().isEmpty() && !updateProfileRequest.getFirstname().equals(user.getFirstname())){
+            user.setFirstname(updateProfileRequest.getFirstname());
+        }
+        if(updateProfileRequest.getLastname()!=null && !updateProfileRequest.getLastname().isEmpty() && !updateProfileRequest.getLastname().equals(user.getLastname())){
+            user.setLastname(updateProfileRequest.getLastname());
+        }
+        if(updateProfileRequest.getUsername()!=null && !updateProfileRequest.getUsername().isEmpty() && !updateProfileRequest.getUsername().equals(user.getUsername())){
+            user.setUsername(updateProfileRequest.getUsername());
+        }
+        if(updateProfileRequest.getBio()!=null && !updateProfileRequest.getBio().isEmpty() && !updateProfileRequest.getBio().equals(user.getBio())){
+            user.setBio(updateProfileRequest.getBio());
+        }
+        if(updateProfileRequest.getEmail()!=null && !updateProfileRequest.getEmail().isEmpty() && !updateProfileRequest.getEmail().equals(user.getEmail())){
+            user.setEmail(updateProfileRequest.getEmail());
+        }
+        if(updateProfileRequest.getProfile_pic_url()!=null && !updateProfileRequest.getProfile_pic_url().isEmpty() && !updateProfileRequest.getProfile_pic_url().equals(user.getProfile_pic_url())){
+            user.setProfile_pic_url(updateProfileRequest.getProfile_pic_url());
+        }
+        userRepository.save(user);
+        if (updateProfileRequest.getUser_type()==UserType.Doctor) {
+            updateDoctor(user, updateProfileRequest.getDoctor_specialty(), updateProfileRequest.getDoctor_years_of_experience());
+        } else {
+            updatePatient(user, updateProfileRequest.getPatient_date_of_birth());
+        }
+    }
+
+    private void updateDoctor(User user, String doctor_speciality, Integer doctor_years_of_experience){
+        Doctor doctor = doctorRepository.getDoctorByUser(user).orElseThrow();
+        if (doctor_speciality!=null && !doctor_speciality.isEmpty()) {
+            doctor.setSpecialty(doctor_speciality);
+        }
+        if (doctor_years_of_experience!=null) {
+            doctor.setYears_of_experience(doctor_years_of_experience);
+        }
+        doctorRepository.save(doctor);
+    }
+
+    private void updatePatient(User user, LocalDate patient_date_of_birth){
+        Patient patient = patientRepository.getPatientByUser(user).orElseThrow();
+        if(patient_date_of_birth!=null){
+            patient.setDate_of_birth(patient_date_of_birth);
+        }
+        patientRepository.save(patient);
     }
 }
