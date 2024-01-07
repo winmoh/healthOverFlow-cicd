@@ -1,8 +1,14 @@
 package com.example.MedInsightHub.like;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface LikeRepository extends JpaRepository<Like,Long> {
+
+    @Query("select l from Like l where l.post_comment_id=?1")
+    List<Like> getLikesByCommentOrPost(long post_comment_id);
 }

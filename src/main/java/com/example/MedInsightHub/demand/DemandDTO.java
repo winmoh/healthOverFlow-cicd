@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 public class DemandDTO {
     private long demand_id;
@@ -14,4 +16,5 @@ public class DemandDTO {
     private String demand_message;
     private boolean include_document;
     private DemandStatus demand_status;
+    private LocalDateTime demand_date_sent;
 }

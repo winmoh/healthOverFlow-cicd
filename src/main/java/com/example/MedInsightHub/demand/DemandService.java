@@ -10,6 +10,7 @@ import com.example.MedInsightHub.user.repositories.PatientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,7 @@ public class DemandService {
         demand.setPatient(patient);
         demand.setDemand_message(sendDemandRequest.getDemand_message());
         demand.setDemand_document_url(sendDemandRequest.getDemand_document_url());
+        demand.setDemand_date_sent(LocalDateTime.now());
         demandRepository.save(demand);
 
     }
@@ -48,7 +50,8 @@ public class DemandService {
                         demand.getPatient().getUser().getUsername(),
                         demand.getDemand_message(),
                         demand.getDemand_document_url()!=null,
-                        demand.getDemand_status()
+                        demand.getDemand_status(),
+                        demand.getDemand_date_sent()
                 )
         ).collect(Collectors.toList());
     }

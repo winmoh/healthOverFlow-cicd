@@ -1,5 +1,7 @@
 package com.example.MedInsightHub.comment;
 
+import com.example.MedInsightHub.like.Like;
+import com.example.MedInsightHub.like.LikeRepository;
 import com.example.MedInsightHub.post.Post;
 import com.example.MedInsightHub.post.PostRepository;
 import com.example.MedInsightHub.user.Doctor;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
     private final DoctorRepository doctorRepository;
     private final PostRepository postRepository;
 
@@ -121,6 +124,9 @@ public class CommentService {
             deleteComment(reply.getComment_id());
         }
         Comment comment = commentRepository.findById(comment_id).orElseThrow();
+        for(Like like : likeRepository.getLikesByCommentOrPost(comment_id)){
+            likeRepository.delete(like);
+        }
         if (comment.getReply_to()==ReplyTo.Comment) {
             Comment reply_to_comment = commentRepository.findById(comment.getReplying_to_id()).orElseThrow();
             reply_to_comment.setReplies_count(reply_to_comment.getReplies_count()-1);
