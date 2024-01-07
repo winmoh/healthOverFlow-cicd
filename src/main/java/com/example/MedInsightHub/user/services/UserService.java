@@ -89,4 +89,29 @@ public class UserService {
         }
         patientRepository.save(patient);
     }
+
+
+    public void newUser(NewUserRequest newUserRequest) {
+        User user = new User();
+        user.setFirstname(newUserRequest.getFirstname());
+        user.setLastname(newUserRequest.getLastname());
+        user.setUsername(newUserRequest.getUsername());
+        user.setEmail(newUserRequest.getEmail());
+        user.setPassword(newUserRequest.getPassword());
+        user.setUser_type(newUserRequest.getUser_type());
+        userRepository.save(user);
+        if (newUserRequest.getUser_type()==UserType.Doctor) {
+            Doctor doctor = new Doctor();
+            doctor.setUser(user);
+            doctor.setSpecialty(newUserRequest.getDoctor_specialty());
+            doctor.setYears_of_experience(newUserRequest.getDoctor_years_of_experience());
+            doctorRepository.save(doctor);
+        } else {
+            Patient patient = new Patient();
+            patient.setUser(user);
+            patient.setGender(newUserRequest.getPatient_gender());
+            patient.setDate_of_birth(newUserRequest.getPatient_date_of_birth());
+            patientRepository.save(patient);
+        }
+    }
 }

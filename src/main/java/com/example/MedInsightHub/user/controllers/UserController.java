@@ -1,5 +1,6 @@
 package com.example.MedInsightHub.user.controllers;
 
+import com.example.MedInsightHub.user.NewUserRequest;
 import com.example.MedInsightHub.user.UpdateProfileRequest;
 import com.example.MedInsightHub.user.dto.UserDTO;
 import com.example.MedInsightHub.user.services.UserService;
@@ -16,6 +17,11 @@ public class UserController {
     public UserDTO getUserInfo(){
         long user_id = 1;
         return userService.getUserInfo(user_id);
+    }
+
+    @PostMapping
+    public void newUser(@RequestBody NewUserRequest newUserRequest){
+        userService.newUser(newUserRequest);
     }
 
     @PutMapping
