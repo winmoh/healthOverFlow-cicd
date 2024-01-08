@@ -9,6 +9,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,6 +37,7 @@ public class CasesTest {
 
     public  final ObjectMapper objectMapper=new ObjectMapper();
     private static MockMvc mockMvc;
+    private static Logger logger;
     @BeforeEach
     public  void setUp(){
          cases =new ArrayList<CaseDTO>();
@@ -47,6 +50,7 @@ public class CasesTest {
         cases.add(Case);
 
         mockMvc=MockMvcBuilders.standaloneSetup(caseController).build();
+        logger = LoggerFactory.getLogger(CasesTest.class);
 
 
     }
@@ -105,12 +109,12 @@ public class CasesTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     ).andExpect(status().isOk());
             assert(serviceDone.get());
-
-
-
+            logger.info("\ntest passed successfully");
 
         }
 
 
 
+
 }
+
