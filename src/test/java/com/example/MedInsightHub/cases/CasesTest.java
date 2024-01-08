@@ -113,6 +113,25 @@ public class CasesTest {
 
         }
 
+        @Test
+        public void deleteCaseByDoctorTest(){
+            //mocking the deleteCaseByDoctor behaviour
+            AtomicBoolean methodCalled=new AtomicBoolean(false);
+            doAnswer(deleteAction->{
+                methodCalled.set(true);
+                return null;
+
+
+            }).when(caseService).deleteCaseByDoctor(1L,1L);
+            mockMvc.perform(MockMvcRequestBuilders
+                    .delete("http://localhost:8080/case/case_id=")
+                    .);
+
+
+
+        }
+
+
 
 
 
