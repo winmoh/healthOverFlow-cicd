@@ -1,6 +1,7 @@
 package com.example.MedInsightHub.comment;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,11 +15,13 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('Doctor')")
     public List<CommentDTO> getCommentsReplies(@RequestParam(name = "comment_id") long comment_id){
         return commentService.getCommentsReplies(comment_id);
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('Doctor')")
     public List<CommentDTO> commentOn(@RequestBody Map<String,Object> comment_input){
         // TODO get doctor id from request token and pass it as parameter
         long doctor_id=1;
@@ -33,6 +36,7 @@ public class CommentController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAuthority('Doctor')")
     public void updateComment(@RequestBody Map<String,Object> comment){
         // TODO get doctor id from request token and pass it as parameter
         long doctor_id=1;
@@ -42,6 +46,7 @@ public class CommentController {
     }
 
     @DeleteMapping(path = "/{comment_id}")
+    @PreAuthorize("hasAuthority('Doctor')")
     public void deleteComment(@PathVariable(name = "comment_id") long comment_id){
         // TODO get doctor id from request token and pass it as parameter
         long doctor_id=1;

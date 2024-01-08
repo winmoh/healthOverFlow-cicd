@@ -27,7 +27,7 @@ public class PatientController {
 
     @GetMapping(path = "profile/{patient_id}")
     @PreAuthorize("hasAuthority('Doctor')")
-    public PatientProfileDTO getPatientProfile(@PathVariable(name = "patient_id") long patient_id){
+    public PatientProfileDTO getPatientProfile(@PathVariable long patient_id){
         return patientService.getPatientProfile(patient_id);
     }
 }

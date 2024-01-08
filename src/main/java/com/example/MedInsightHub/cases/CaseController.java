@@ -2,6 +2,7 @@ package com.example.MedInsightHub.cases;
 
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class CaseController {
     private final CaseService caseService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('Doctor')")
     public List<CaseDTO> getDoctorCases(){
         // TODO get doctor id from request token and pass it as parameter
         long doctor_id=1;
@@ -22,6 +24,7 @@ public class CaseController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('Doctor')")
     public void createCaseByDoctor(@RequestBody CaseRequest caseRequest) {
         // TODO get doctor id from request token and pass it as parameter
         long doctor_id = 1;
@@ -33,6 +36,7 @@ public class CaseController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAuthority('Doctor')")
     public void updateCaseByDoctor(@RequestBody UpdateCase update_case){
         // TODO get doctor id from request token and pass it as parameter
         long doctor_id=1;
@@ -40,6 +44,7 @@ public class CaseController {
     }
 
     @DeleteMapping("/{case_id}")
+    @PreAuthorize("hasAuthority('Doctor')")
     public void deleteCaseByDoctor(@PathVariable("case_id") long case_id){
         // TODO get doctor id from request token and pass it as parameter
         long doctor_id=1;
