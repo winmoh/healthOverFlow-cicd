@@ -1,5 +1,7 @@
-package com.example.MedInsightHub.user;
+package com.example.MedInsightHub.user.requests;
 
+import com.example.MedInsightHub.user.UserGender;
+import com.example.MedInsightHub.user.UserType;
 import lombok.Getter;
 import lombok.Setter;
 

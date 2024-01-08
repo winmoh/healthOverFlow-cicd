@@ -1,10 +1,14 @@
 package com.example.MedInsightHub.user.controllers;
 
-import com.example.MedInsightHub.user.NewUserRequest;
-import com.example.MedInsightHub.user.UpdateProfileRequest;
+import com.example.MedInsightHub.user.requests.AuthenticationRequest;
+import com.example.MedInsightHub.user.requests.NewUserRequest;
+import com.example.MedInsightHub.user.requests.UpdateProfileRequest;
 import com.example.MedInsightHub.user.dto.UserDTO;
 import com.example.MedInsightHub.user.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,17 +19,28 @@ public class UserController {
 
     @GetMapping
     public UserDTO getUserInfo(){
-        long user_id = 1;
-        return userService.getUserInfo(user_id);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if ( principal instanceof UserDetails){
+            long user_id = userService.usernameToUserId(((UserDetails)principal).getUsername());
+            return userService.getUserInfo(user_id);
+        }
+        throw new UsernameNotFoundException("user not found!!!");
     }
 
-    @PostMapping
-    public void newUser(@RequestBody NewUserRequest newUserRequest){
-        userService.newUser(newUserRequest);
+    @PostMapping(path = "create")
+    public String newUser(@RequestBody(required = false) NewUserRequest newUserRequest){
+        return userService.newUser(newUserRequest);
+    }
+
+    @PostMapping(path = "authenticate")
+    public String auth(
+            @RequestBody(required = false) AuthenticationRequest authenticationRequest
+    ){
+        return userService.auth(authenticationRequest);
     }
 
     @PutMapping
-    public void updateProfile(@RequestBody UpdateProfileRequest updateProfileRequest){
+    public void updateProfile(@RequestBody(required = false) UpdateProfileRequest updateProfileRequest){
         long user_id = 1;
         userService.updateProfile(updateProfileRequest, user_id);
     }

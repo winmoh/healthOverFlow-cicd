@@ -5,10 +5,16 @@ import com.example.MedInsightHub.user.dto.UserDTO;
 import com.example.MedInsightHub.user.repositories.DoctorRepository;
 import com.example.MedInsightHub.user.repositories.PatientRepository;
 import com.example.MedInsightHub.user.repositories.UserRepository;
+import com.example.MedInsightHub.user.requests.AuthenticationRequest;
+import com.example.MedInsightHub.user.requests.NewUserRequest;
+import com.example.MedInsightHub.user.requests.UpdateProfileRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +22,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
 
     public UserDTO getUserInfo(long user_id) {
@@ -91,7 +99,7 @@ public class UserService {
     }
 
 
-    public void newUser(NewUserRequest newUserRequest) {
+    public String newUser(NewUserRequest newUserRequest) {
         User user = new User();
         user.setFirstname(newUserRequest.getFirstname());
         user.setLastname(newUserRequest.getLastname());
@@ -99,6 +107,7 @@ public class UserService {
         user.setEmail(newUserRequest.getEmail());
         user.setPassword(newUserRequest.getPassword());
         user.setUser_type(newUserRequest.getUser_type());
+        user.setRegistration_date(LocalDateTime.now());
         userRepository.save(user);
         if (newUserRequest.getUser_type()==UserType.Doctor) {
             Doctor doctor = new Doctor();
@@ -113,5 +122,20 @@ public class UserService {
             patient.setDate_of_birth(newUserRequest.getPatient_date_of_birth());
             patientRepository.save(patient);
         }
+        return jwtService.generateToken(user.getUsername());
+    }
+
+    public String auth(AuthenticationRequest authenticationRequest) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        authenticationRequest.getUsername(),
+                        authenticationRequest.getPassword()
+                )
+        );
+        return jwtService.generateToken(authenticationRequest.getUsername());
+    }
+
+    public long usernameToUserId(String username) {
+        return userRepository.getUserByUsername(username).orElseThrow().getUser_id();
     }
 }
