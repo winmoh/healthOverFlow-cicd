@@ -1,8 +1,6 @@
 package com.example.MedInsightHub.cases;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,8 +9,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -27,7 +23,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-public class CasesTest {
+public class CasesControllerTest {
     List<CaseDTO> cases;
 
     @InjectMocks
@@ -50,7 +46,7 @@ public class CasesTest {
         cases.add(Case);
 
         mockMvc=MockMvcBuilders.standaloneSetup(caseController).build();
-        logger = LoggerFactory.getLogger(CasesTest.class);
+        logger = LoggerFactory.getLogger(CasesControllerTest.class);
 
 
     }
@@ -114,7 +110,7 @@ public class CasesTest {
         }
 
         @Test
-        public void deleteCaseByDoctorTest(){
+        public void deleteCaseByDoctorTest() throws Exception {
             //mocking the deleteCaseByDoctor behaviour
             AtomicBoolean methodCalled=new AtomicBoolean(false);
             doAnswer(deleteAction->{
@@ -124,8 +120,11 @@ public class CasesTest {
 
             }).when(caseService).deleteCaseByDoctor(1L,1L);
             mockMvc.perform(MockMvcRequestBuilders
-                    .delete("http://localhost:8080/case/case_id=")
-                    .);
+                    .delete("http://localhost:8080/case/1")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    ).andExpect(status().isOk());
+
+            assert(methodCalled.get());
 
 
 
