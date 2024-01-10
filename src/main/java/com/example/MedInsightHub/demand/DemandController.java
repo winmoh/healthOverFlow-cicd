@@ -12,10 +12,17 @@ import java.util.List;
 public class DemandController {
     private final DemandService demandService;
     @PostMapping
-    @PreAuthorize("hasAuthority('Doctor')")
+    @PreAuthorize("hasAuthority('Patient')")
     public void sendADemand(@RequestBody SendDemandRequest sendDemandRequest){
         long patient_id = 1;
         demandService.sendADemand(patient_id, sendDemandRequest);
+    }
+
+    @GetMapping
+    @PreAuthorize("hasAuthority('Patient')")
+    public List<ConsultDemandsDTO> checkDemands(){
+        long patient_id = 1;
+        return demandService.checkDemands(patient_id);
     }
 
     @GetMapping(path = "/all")

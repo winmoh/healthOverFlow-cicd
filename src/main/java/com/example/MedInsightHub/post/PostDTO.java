@@ -18,5 +18,7 @@ public class PostDTO {
     private int likes_count;
     private int comments_count;
     private LocalDateTime date_posted;
+    private boolean viewed;
+    private boolean liked;
 
 }

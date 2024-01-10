@@ -1,6 +1,5 @@
 package com.example.MedInsightHub.user.config;
 
-import com.example.MedInsightHub.user.User;
 import com.example.MedInsightHub.user.services.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

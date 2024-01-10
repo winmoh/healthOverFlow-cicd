@@ -1,11 +1,13 @@
 package com.example.MedInsightHub.user.controllers;
 
+import com.example.MedInsightHub.user.dto.JwtResponse;
 import com.example.MedInsightHub.user.requests.AuthenticationRequest;
 import com.example.MedInsightHub.user.requests.NewUserRequest;
 import com.example.MedInsightHub.user.requests.UpdateProfileRequest;
 import com.example.MedInsightHub.user.dto.UserDTO;
 import com.example.MedInsightHub.user.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,13 +30,13 @@ public class UserController {
     }
 
     @PostMapping(path = "create")
-    public String newUser(@RequestBody(required = false) NewUserRequest newUserRequest){
+    public ResponseEntity<JwtResponse> newUser(@RequestBody NewUserRequest newUserRequest){
         return userService.newUser(newUserRequest);
     }
 
     @PostMapping(path = "authenticate")
-    public String auth(
-            @RequestBody(required = false) AuthenticationRequest authenticationRequest
+    public ResponseEntity<JwtResponse> auth(
+            @RequestBody AuthenticationRequest authenticationRequest
     ){
         return userService.auth(authenticationRequest);
     }

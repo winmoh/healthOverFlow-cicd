@@ -15,6 +15,9 @@ public interface PostRepository extends JpaRepository<Post,Long> {
     @Query("select p from Post p where p.post_status=Answered")
     List<Post> getResolvedPosts();
 
+    @Query("select p from Post p where p.post_status<>Closed")
+    List<Post> getNotClosedPosts();
+
     @Query("select p from Post p where p.doctor=?1")
     List<Post> getDoctorPosts(Doctor doctor);
 }

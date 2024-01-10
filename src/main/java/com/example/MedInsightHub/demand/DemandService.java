@@ -91,4 +91,16 @@ public class DemandService {
         demandRepository.delete(demand);
         // TODO notification demand rejected
     }
+
+    public List<ConsultDemandsDTO> checkDemands(long patient_id) {
+        return demandRepository.getDemandsByPatient(patientRepository.findById(patient_id).orElseThrow()).stream().map(
+                demand -> new ConsultDemandsDTO(
+                        demand.getDemand_id(),
+                        demand.getDemand_message(),
+                        demand.getDemand_document_url()!=null,
+                        demand.getDemand_status(),
+                        demand.getDemand_date_sent()
+                )
+        ).collect(Collectors.toList());
+    }
 }

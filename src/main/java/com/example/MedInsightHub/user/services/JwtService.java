@@ -1,9 +1,5 @@
 package com.example.MedInsightHub.user.services;
 
-import com.example.MedInsightHub.user.User;
-import com.example.MedInsightHub.user.repositories.DoctorRepository;
-import com.example.MedInsightHub.user.repositories.PatientRepository;
-import com.example.MedInsightHub.user.repositories.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -11,7 +7,6 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -24,11 +19,9 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtService {
 
-    private static final String SECRET_KEY = "885896d07c258e4ef9861f83678aeebcbd5b36ecf6cc5c156841b8c14f32dd79" ;
+    private static final String SECRET_KEY = "cba134ce73c969e4a60ab9dcd5805b34635a06520a48716b208ea287ad7403de" ;
 
-    private final UserRepository userRepository;
-    private final DoctorRepository doctorRepository;
-    private final PatientRepository patientRepository;
+
     public String generateToken(String username){
         Map<String, Object> map = new HashMap<>();
         map.put("username", username);

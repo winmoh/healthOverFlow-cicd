@@ -3,6 +3,7 @@ package com.example.MedInsightHub.post;
 import com.example.MedInsightHub.cases.CaseRepository;
 import com.example.MedInsightHub.comment.CommentDTO;
 import com.example.MedInsightHub.comment.CommentRepository;
+import com.example.MedInsightHub.like.LikeRepository;
 import com.example.MedInsightHub.post.post_views.PostViews;
 import com.example.MedInsightHub.post.post_views.PostViewsRepository;
 import com.example.MedInsightHub.user.repositories.DoctorRepository;
@@ -22,10 +23,30 @@ public class PostService {
     private final PostRepository postRepository;
     private final DoctorRepository doctorRepository;
     private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
     private final CaseRepository caseRepository;
     private final PostViewsRepository postViewsRepository;
 
-    public List<PostDTO> getOpenPosts() {
+    public List<PostDTO> getNotClosedPosts(long doctor_id) {
+        return postRepository.getNotClosedPosts().stream().map(
+                post -> new PostDTO(post.getPost_id(),
+                        post.getDoctor().getUser().getFirstname(),
+                        post.getDoctor().getUser().getLastname(),
+                        post.getTitle(),
+                        post.getPost_type(),
+                        post.getPost_status(),
+                        post.getTags(),
+                        post.getViews_count(),
+                        post.getLikes_count(),
+                        post.getComments_count(),
+                        post.getDate_posted(),
+                        postViewsRepository.getByDoctorAndPost(doctorRepository.findById(doctor_id).orElseThrow(),post).isPresent(),
+                        likeRepository.getLikeByPostCommentAndDoctor(post.getPost_id(),doctorRepository.findById(doctor_id).orElseThrow()).isPresent()
+                )
+        ).collect(Collectors.toList());
+    }
+
+    public List<PostDTO> getOpenPosts(long doctor_id) {
         return postRepository.getOpenPosts().stream().map(
                 post -> new PostDTO(post.getPost_id(),
                         post.getDoctor().getUser().getFirstname(),
@@ -37,12 +58,14 @@ public class PostService {
                         post.getViews_count(),
                         post.getLikes_count(),
                         post.getComments_count(),
-                        post.getDate_posted()
-                        )
+                        post.getDate_posted(),
+                        postViewsRepository.getByDoctorAndPost(doctorRepository.findById(doctor_id).orElseThrow(),post).isPresent(),
+                        likeRepository.getLikeByPostCommentAndDoctor(post.getPost_id(),doctorRepository.findById(doctor_id).orElseThrow()).isPresent()
+                )
         ).collect(Collectors.toList());
     }
 
-    public List<PostDTO> getResolvedPosts() {
+    public List<PostDTO> getResolvedPosts(long doctor_id) {
         return postRepository.getResolvedPosts().stream().map(
                 post -> new PostDTO(post.getPost_id(),
                         post.getDoctor().getUser().getFirstname(),
@@ -54,7 +77,10 @@ public class PostService {
                         post.getViews_count(),
                         post.getLikes_count(),
                         post.getComments_count(),
-                        post.getDate_posted())
+                        post.getDate_posted(),
+                        postViewsRepository.getByDoctorAndPost(doctorRepository.findById(doctor_id).orElseThrow(),post).isPresent(),
+                        likeRepository.getLikeByPostCommentAndDoctor(post.getPost_id(),doctorRepository.findById(doctor_id).orElseThrow()).isPresent()
+                )
         ).collect(Collectors.toList());
     }
 
@@ -70,7 +96,10 @@ public class PostService {
                         post.getViews_count(),
                         post.getLikes_count(),
                         post.getComments_count(),
-                        post.getDate_posted())
+                        post.getDate_posted(),
+                        true,
+                        likeRepository.getLikeByPostCommentAndDoctor(post.getPost_id(),doctorRepository.findById(doctor_id).orElseThrow()).isPresent()
+                )
         ).collect(Collectors.toList());
     }
 

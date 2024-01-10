@@ -14,16 +14,25 @@ import java.util.Map;
 public class PostController {
     private final PostService postService;
 
+    @GetMapping(path = "all")
+    @PreAuthorize("hasAuthority('Doctor')")
+    public List<PostDTO> getNotClosedPosts(){
+        long doctor_id = 1;
+        return postService.getNotClosedPosts(doctor_id);
+    }
+
     @GetMapping(path = "open")
     @PreAuthorize("hasAuthority('Doctor')")
     public List<PostDTO> getOpenPosts(){
-        return postService.getOpenPosts();
+        long doctor_id = 1;
+        return postService.getOpenPosts(doctor_id);
     }
 
     @GetMapping(path = "resolved")
     @PreAuthorize("hasAuthority('Doctor')")
     public List<PostDTO> getResolvedPosts(){
-        return postService.getResolvedPosts();
+        long doctor_id =1;
+        return postService.getResolvedPosts(doctor_id);
     }
 
     @GetMapping(path = "myPosts")

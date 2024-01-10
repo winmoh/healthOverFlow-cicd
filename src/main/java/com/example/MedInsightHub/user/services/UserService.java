@@ -1,6 +1,7 @@
 package com.example.MedInsightHub.user.services;
 
 import com.example.MedInsightHub.user.*;
+import com.example.MedInsightHub.user.dto.JwtResponse;
 import com.example.MedInsightHub.user.dto.UserDTO;
 import com.example.MedInsightHub.user.repositories.DoctorRepository;
 import com.example.MedInsightHub.user.repositories.PatientRepository;
@@ -9,12 +10,16 @@ import com.example.MedInsightHub.user.requests.AuthenticationRequest;
 import com.example.MedInsightHub.user.requests.NewUserRequest;
 import com.example.MedInsightHub.user.requests.UpdateProfileRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +29,7 @@ public class UserService {
     private final PatientRepository patientRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
 
 
     public UserDTO getUserInfo(long user_id) {
@@ -98,14 +104,18 @@ public class UserService {
         patientRepository.save(patient);
     }
 
+    public String getEncodedPassword(String password){
+        return passwordEncoder.encode(password);
+    }
 
-    public String newUser(NewUserRequest newUserRequest) {
+
+    public ResponseEntity<JwtResponse> newUser(NewUserRequest newUserRequest) {
         User user = new User();
         user.setFirstname(newUserRequest.getFirstname());
         user.setLastname(newUserRequest.getLastname());
         user.setUsername(newUserRequest.getUsername());
         user.setEmail(newUserRequest.getEmail());
-        user.setPassword(newUserRequest.getPassword());
+        user.setPassword(getEncodedPassword(newUserRequest.getPassword()));
         user.setUser_type(newUserRequest.getUser_type());
         user.setRegistration_date(LocalDateTime.now());
         userRepository.save(user);
@@ -122,17 +132,34 @@ public class UserService {
             patient.setDate_of_birth(newUserRequest.getPatient_date_of_birth());
             patientRepository.save(patient);
         }
-        return jwtService.generateToken(user.getUsername());
+        JwtResponse jwtResponse = new JwtResponse(
+                user.getUsername(),
+                user.getFirstname(),
+                user.getLastname(),
+                user.getProfile_pic_url(),
+                jwtService.generateToken(user.getUsername()),
+                user.getUser_type()
+        );
+        return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
     }
 
-    public String auth(AuthenticationRequest authenticationRequest) {
+    public ResponseEntity<JwtResponse> auth(AuthenticationRequest authenticationRequest) {
+        User a_user = userRepository.getUserByUsername(authenticationRequest.getUsername()).orElseThrow();
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequest.getUsername(),
                         authenticationRequest.getPassword()
                 )
         );
-        return jwtService.generateToken(authenticationRequest.getUsername());
+        JwtResponse jwtResponse = new JwtResponse(
+                a_user.getUsername(),
+                a_user.getFirstname(),
+                a_user.getLastname(),
+                a_user.getProfile_pic_url(),
+                jwtService.generateToken(getEncodedPassword(authenticationRequest.getUsername())),
+                a_user.getUser_type()
+        );
+        return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
     }
 
     public long usernameToUserId(String username) {
