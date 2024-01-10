@@ -20,13 +20,10 @@ public class ApplicationConfig {
     private final UserRepository userRepository;
     @Bean
     public UserDetailsService getUserByUsername() {
-        return username ->
-        {
-            return userRepository.getUserByUsername(username)
+        return username -> userRepository.getUserByUsername(username)
                 .orElseThrow(
                         () -> new UsernameNotFoundException("user not found!!!")
                 );
-        };
     }
 
     @Bean
