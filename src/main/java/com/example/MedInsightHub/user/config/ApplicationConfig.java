@@ -26,7 +26,6 @@ public class ApplicationConfig {
                 .orElseThrow(
                         () -> new UsernameNotFoundException("user not found!!!")
                 );
-
         };
     }
 
