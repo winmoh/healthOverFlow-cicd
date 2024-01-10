@@ -9,12 +9,12 @@ import java.util.List;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post,Long> {
-    @Query("select p from post p where p.post_status=Open")
+    @Query("select p from Post p where p.post_status=Open")
     List<Post> getOpenPosts();
 
-    @Query("select p from post p where p.post_status=Answered")
+    @Query("select p from Post p where p.post_status=Answered")
     List<Post> getResolvedPosts();
 
-    @Query("select p from post p where p.doctor=?1")
+    @Query("select p from Post p where p.doctor=?1")
     List<Post> getDoctorPosts(Doctor doctor);
 }

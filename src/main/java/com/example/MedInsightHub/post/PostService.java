@@ -3,6 +3,8 @@ package com.example.MedInsightHub.post;
 import com.example.MedInsightHub.cases.CaseRepository;
 import com.example.MedInsightHub.comment.CommentDTO;
 import com.example.MedInsightHub.comment.CommentRepository;
+import com.example.MedInsightHub.post.post_views.PostViews;
+import com.example.MedInsightHub.post.post_views.PostViewsRepository;
 import com.example.MedInsightHub.user.repositories.DoctorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +23,7 @@ public class PostService {
     private final DoctorRepository doctorRepository;
     private final CommentRepository commentRepository;
     private final CaseRepository caseRepository;
+    private final PostViewsRepository postViewsRepository;
 
     public List<PostDTO> getOpenPosts() {
         return postRepository.getOpenPosts().stream().map(
@@ -115,7 +119,12 @@ public class PostService {
         if(isPostOwner(post_id,doctor_id)){
             map.put("case_id",post.getACase().getCase_id());
         }
-
+        Optional<PostViews> postViews = postViewsRepository.getByDoctorAndPost(doctorRepository.findById(doctor_id).orElseThrow(),post);
+        if (postViews.isEmpty()) {
+            PostViews postViews1 = new PostViews(post,doctorRepository.findById(doctor_id).orElseThrow());
+            post.setViews_count(post.getViews_count()+1);
+            postViewsRepository.save(postViews1);
+        }
         return map;
     }
 
