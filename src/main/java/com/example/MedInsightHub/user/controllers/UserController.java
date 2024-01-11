@@ -43,7 +43,13 @@ public class UserController {
 
     @PutMapping
     public void updateProfile(@RequestBody(required = false) UpdateProfileRequest updateProfileRequest){
-        long user_id = 1;
-        userService.updateProfile(updateProfileRequest, user_id);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if ( principal instanceof UserDetails) {
+            long user_id = userService.usernameToUserId(((UserDetails) principal).getUsername());
+            userService.updateProfile(updateProfileRequest, user_id);
+        } else {
+            throw new UsernameNotFoundException("user not found!!!");
+        }
+
     }
 }
