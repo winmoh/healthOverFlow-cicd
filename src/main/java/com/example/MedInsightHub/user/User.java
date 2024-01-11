@@ -2,13 +2,10 @@ package com.example.MedInsightHub.user;
 
 import jakarta.persistence.*;
 import lombok.*;
-<<<<<<< HEAD
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-=======
->>>>>>> 724c510c8759ee6fc8fb8a66206c15998993f833
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -20,12 +17,7 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-<<<<<<< HEAD
 public class User implements UserDetails {
-=======
-@Builder
-public class User {
->>>>>>> 724c510c8759ee6fc8fb8a66206c15998993f833
     @Id
     @SequenceGenerator(
             name = "user_sequence",

@@ -17,17 +17,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-=======
+
 import java.time.LocalDate;
-<<<<<<< HEAD
 import java.time.LocalDateTime;
-import java.util.Optional;
-=======
->>>>>>> 235aa9338be8ee080951cf5b984be3b7d1c49e19
->>>>>>> 724c510c8759ee6fc8fb8a66206c15998993f833
+
 
 @Service
 @RequiredArgsConstructor
