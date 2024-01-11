@@ -16,17 +16,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-<<<<<<< HEAD
+
 
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-=======
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.LocalDate;
-import java.util.Optional;
->>>>>>> 4bcd1fc2cca392daa63bdc00bd7bed877df457db
+
 
 
 @Service

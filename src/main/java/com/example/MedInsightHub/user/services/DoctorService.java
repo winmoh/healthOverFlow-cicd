@@ -6,6 +6,7 @@ import com.example.MedInsightHub.user.Doctor;
 import com.example.MedInsightHub.user.dto.DoctorDTO;
 import com.example.MedInsightHub.user.dto.DoctorProfileDTO;
 import com.example.MedInsightHub.user.repositories.DoctorRepository;
+import com.example.MedInsightHub.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class DoctorService {
 
     private final DoctorRepository doctorRepository;
+    private final UserRepository userRepository;
     private final CaseRepository caseRepository;
 
     public List<DoctorDTO> getDoctors() {
@@ -50,5 +52,10 @@ public class DoctorService {
         doctorProfileDTO.setOnline(doctor.getUser().isOnline());
         doctorProfileDTO.setCases_solved(caseRepository.getCasesSolvedByDoctor(doctor).size());
         return doctorProfileDTO;
+
+
+    }
+    public Doctor getDoctorByUsername(String username) {
+        return doctorRepository.getDoctorByUser(userRepository.getUserByUsername(username).orElseThrow()).orElseThrow();
     }
 }
