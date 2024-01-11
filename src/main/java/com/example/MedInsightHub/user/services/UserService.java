@@ -157,7 +157,7 @@ public class UserService {
                 a_user.getFirstname(),
                 a_user.getLastname(),
                 a_user.getProfile_pic_url(),
-                jwtService.generateToken(getEncodedPassword(authenticationRequest.getUsername())),
+                jwtService.generateToken(authenticationRequest.getUsername()),
                 a_user.getUser_type()
         );
         return new ResponseEntity<>(jwtResponse, HttpStatus.OK);
