@@ -35,7 +35,6 @@ public class CaseService {
                 )
         ).collect(Collectors.toList());
     }
-
     public void createCaseByDoctor(long doctor_id, String analysis_content, String case_document_url) {
         Case a_case = new Case();
         a_case.setCase_status(CaseStatus.Pending);

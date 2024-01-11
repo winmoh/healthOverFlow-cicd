@@ -1,12 +1,14 @@
 package com.example.MedInsightHub.cases;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@Builder
 public class CaseRequest {
     private Long patient_id;
     private String analysis_content;
