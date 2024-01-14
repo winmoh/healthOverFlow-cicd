@@ -16,10 +16,7 @@ pipeline{
 
 
         stage('code analysis using sonarQube code coverage'){
-            environment{
-                scannerHome= tool "sonarscanner"
 
-            }
             steps{
                 withSonarQubeEnv('sonarQube') {
                    sh 'mvn clean package sonar:sonar'
