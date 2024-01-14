@@ -15,7 +15,7 @@ pipeline{
         }
 
 
-        stage('code analysis using sonarQube'){
+        stage('code analysis using sonarQube code coverage'){
             environment{
                 scannerHome= tool "sonarscanner"
 
