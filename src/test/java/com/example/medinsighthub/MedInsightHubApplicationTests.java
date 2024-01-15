@@ -4,8 +4,5 @@ import org.junit.jupiter.api.Test;
 
 class MedInsightHubApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
 
 }
