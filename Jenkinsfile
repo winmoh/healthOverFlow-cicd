@@ -4,7 +4,7 @@ pipeline{
         stage('building the app'){
             steps{
                 echo 'building the app and generating the jar file';
-                sh 'mvn clean install'
+                sh 'mvn clean package'
             }
 
         }
