@@ -41,16 +41,19 @@ public class CommentService {
 
     public List<CommentDTO> commentOn(long post_comment_id, String comment_text, long doctor_id, ReplyTo reply_to) {
         Doctor doctor = doctorRepository.findById(doctor_id).orElseThrow();
+        Comment replying_to_comment;
+        Post replying_to_post;
 
         {
             if (reply_to==ReplyTo.Comment) {
-                Comment comm=commentRepository.findById(post_comment_id).orElseThrow(
+                replying_to_comment=commentRepository.findById(post_comment_id).orElseThrow(
                         () ->
                             new IllegalStateException("no comment with id "+post_comment_id+" was found!!!")
                 );
+
             }
             else {
-                Post post=postRepository.findById(post_comment_id).orElseThrow(
+                replying_to_post=postRepository.findById(post_comment_id).orElseThrow(
                         () ->
                                 new IllegalStateException("no post with id "+post_comment_id+" was found!!!")
                 );
@@ -66,11 +69,11 @@ public class CommentService {
         comment.setDate_commented(LocalDateTime.now());
         commentRepository.save(comment);
         if (reply_to==ReplyTo.Comment) {
-            Comment replying_to_comment = commentRepository.findById(post_comment_id).orElseThrow();
+            replying_to_comment = commentRepository.findById(post_comment_id).orElseThrow();
             replying_to_comment.setReplies_count(replying_to_comment.getReplies_count()+1);
             commentRepository.save(replying_to_comment);
         } else {
-            Post replying_to_post = postRepository.findById(post_comment_id).orElseThrow();
+             replying_to_post = postRepository.findById(post_comment_id).orElseThrow();
             replying_to_post.setComments_count(replying_to_post.getComments_count()+1);
             postRepository.save(replying_to_post);
         }
