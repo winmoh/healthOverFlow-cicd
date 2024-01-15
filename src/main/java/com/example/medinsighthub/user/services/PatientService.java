@@ -5,6 +5,7 @@ import com.example.medinsighthub.user.dto.PatientDTO;
 import com.example.medinsighthub.user.dto.PatientProfileDTO;
 import com.example.medinsighthub.user.repositories.PatientRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PatientService {
+    @Autowired
     private final PatientRepository patientRepository;
 
     public List<PatientDTO> getPatients() {

@@ -5,6 +5,7 @@ import com.example.medinsighthub.comment.CommentDTO;
 import com.example.medinsighthub.comment.CommentRepository;
 import com.example.medinsighthub.user.repositories.DoctorRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,9 +17,14 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PostService {
+    @Autowired
     private final PostRepository postRepository;
+    @Autowired
     private final DoctorRepository doctorRepository;
+
+    @Autowired
     private final CommentRepository commentRepository;
+    @Autowired
     private final CaseRepository caseRepository;
 
     public List<PostDTO> getOpenPosts() {

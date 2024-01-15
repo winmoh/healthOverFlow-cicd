@@ -2,6 +2,7 @@ package com.example.medinsighthub.post;
 
 import com.example.medinsighthub.comment.CommentDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping(path = "/post")
 public class PostController {
+    @Autowired
     private final PostService postService;
 
     @GetMapping(path = "open")

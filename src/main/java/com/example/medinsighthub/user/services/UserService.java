@@ -7,6 +7,7 @@ import com.example.medinsighthub.user.repositories.DoctorRepository;
 import com.example.medinsighthub.user.repositories.PatientRepository;
 import com.example.medinsighthub.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,8 +16,11 @@ import java.time.LocalTime;
 @Service
 @RequiredArgsConstructor
 public class UserService {
+    @Autowired
     private final UserRepository userRepository;
+    @Autowired
     private final DoctorRepository doctorRepository;
+    @Autowired
     private final PatientRepository patientRepository;
 
 

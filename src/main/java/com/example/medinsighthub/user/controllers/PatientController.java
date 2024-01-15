@@ -5,6 +5,7 @@ import com.example.medinsighthub.user.dto.PatientDTO;
 import com.example.medinsighthub.user.dto.PatientProfileDTO;
 import com.example.medinsighthub.user.services.PatientService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = "/patient")
 public class PatientController {
+    @Autowired
     private final PatientService patientService;
 
     @GetMapping

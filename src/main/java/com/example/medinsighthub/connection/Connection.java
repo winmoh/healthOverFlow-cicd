@@ -33,6 +33,7 @@ public class Connection {
     @JoinColumn(name = "receiver_id", referencedColumnName = "user_id")
     private User user_receiver;
     private LocalDateTime date_sent;
+    @Enumerated(EnumType.STRING)
     private ConnectionStatus connection_status;
 
     public Connection(User user_sender, User user_receiver, LocalDateTime date_sent, ConnectionStatus connection_status) {

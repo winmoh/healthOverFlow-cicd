@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor,Long> {
 
-    @Query("select d from doctor d where d.user=?1")
+    @Query("select d from Doctor  d where d.user=?1")
     Optional<Doctor> getDoctorByUser(User user);
 }

@@ -4,6 +4,7 @@ import com.example.medinsighthub.user.Doctor;
 import com.example.medinsighthub.user.repositories.DoctorRepository;
 import com.example.medinsighthub.user.repositories.PatientRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,10 +14,12 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CaseService {
-
-    private final CaseRepository caseRepository;
-    private final DoctorRepository doctorRepository;
-    private final PatientRepository patientRepository;
+    @Autowired
+    private  CaseRepository caseRepository;
+    @Autowired
+    private  DoctorRepository doctorRepository;
+    @Autowired
+    private  PatientRepository patientRepository;
 
     public boolean caseBelongsToDoctor(Case a_case, long doctor_id){
         Optional<Case> check_case = caseRepository.getCaseByIdAndDoctor(a_case.getCase_id(),doctorRepository.findById(doctor_id).orElseThrow());

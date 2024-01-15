@@ -1,6 +1,7 @@
 package com.example.medinsighthub.comment;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping(path = "comment")
 public class CommentController {
-
+    @Autowired
     private final CommentService commentService;
 
     @GetMapping
