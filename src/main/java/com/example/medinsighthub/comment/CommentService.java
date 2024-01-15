@@ -41,15 +41,16 @@ public class CommentService {
 
     public List<CommentDTO> commentOn(long post_comment_id, String comment_text, long doctor_id, ReplyTo reply_to) {
         Doctor doctor = doctorRepository.findById(doctor_id).orElseThrow();
+
         {
             if (reply_to==ReplyTo.Comment) {
-                commentRepository.findById(post_comment_id).orElseThrow(
+                Comment comm=commentRepository.findById(post_comment_id).orElseThrow(
                         () ->
                             new IllegalStateException("no comment with id "+post_comment_id+" was found!!!")
                 );
             }
             else {
-                postRepository.findById(post_comment_id).orElseThrow(
+                Post post=postRepository.findById(post_comment_id).orElseThrow(
                         () ->
                                 new IllegalStateException("no post with id "+post_comment_id+" was found!!!")
                 );
