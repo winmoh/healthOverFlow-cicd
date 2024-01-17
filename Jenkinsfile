@@ -1,13 +1,20 @@
 pipeline{
     agent any
     stages{
-        stage('building the app'){
+        stage('cleaning the app'){
             steps{
-                echo 'building the app and generating the jar file';
-                sh 'mvn  package '
+                echo 'cleaning the app and generating the jar file';
+                sh 'mvn  clean '
             }
 
         }
+         stage('building the app'){
+                    steps{
+                        echo 'building the app and generating the jar file';
+                        sh 'mvn  package '
+                    }
+
+         }
         stage('testing the app -unit tests-'){
             steps{
                 sh 'mvn test'
