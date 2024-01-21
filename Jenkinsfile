@@ -1,6 +1,11 @@
 pipeline{
     agent any
     stages{
+        stage('starting postgres databse container'){
+            steps{
+                sh 'sudo docker start bb2cb28b729a'
+            }
+        }
         stage('cleaning the app'){
             steps{
                 echo 'cleaning the app and generating the jar file';
