@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage('starting postgres databse container'){
             steps{
-                sh  "echo 'winmoh' | sudo -S docker start bb2cb28b729a"
+                sh  "docker start bb2cb28b729a"
 
             }
         }
