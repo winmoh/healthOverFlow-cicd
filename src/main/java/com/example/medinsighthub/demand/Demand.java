@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,12 +34,18 @@ public class Demand {
     @JoinColumn( name = "doctor_id", referencedColumnName = "doctor_id")
     private Doctor doctor;
     private DemandStatus demand_status;
+    private String demand_message;
     private String demand_document_url;
+    private LocalDateTime demand_date_sent;
 
-    public Demand(Patient patient, Doctor doctor, DemandStatus demand_status, String demand_document_url) {
+    public Demand(Patient patient, Doctor doctor, DemandStatus demand_status,
+                  String demand_message, String demand_document_url,
+                  LocalDateTime demand_date_sent) {
         this.patient = patient;
         this.doctor = doctor;
         this.demand_status = demand_status;
+        this.demand_message = demand_message;
         this.demand_document_url = demand_document_url;
+        this.demand_date_sent = demand_date_sent;
     }
 }

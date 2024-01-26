@@ -1,7 +1,11 @@
 package com.example.medinsighthub.comment;
 
 import lombok.RequiredArgsConstructor;
+<<<<<<< HEAD:src/main/java/com/example/medinsighthub/comment/CommentController.java
 import org.springframework.beans.factory.annotation.Autowired;
+=======
+import org.springframework.security.access.prepost.PreAuthorize;
+>>>>>>> 3c2e4af78cb2a6bc3188f9034532f151b09d0b0a:src/main/java/com/example/MedInsightHub/comment/CommentController.java
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,11 +19,13 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('Doctor')")
     public List<CommentDTO> getCommentsReplies(@RequestParam(name = "comment_id") long comment_id){
         return commentService.getCommentsReplies(comment_id);
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('Doctor')")
     public List<CommentDTO> commentOn(@RequestBody Map<String,Object> comment_input){
         // TODO get doctor id from request token and pass it as parameter
         long doctor_id=1;
@@ -34,6 +40,7 @@ public class CommentController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAuthority('Doctor')")
     public void updateComment(@RequestBody Map<String,Object> comment){
         // TODO get doctor id from request token and pass it as parameter
         long doctor_id=1;
@@ -43,6 +50,7 @@ public class CommentController {
     }
 
     @DeleteMapping(path = "/{comment_id}")
+    @PreAuthorize("hasAuthority('Doctor')")
     public void deleteComment(@PathVariable(name = "comment_id") long comment_id){
         // TODO get doctor id from request token and pass it as parameter
         long doctor_id=1;

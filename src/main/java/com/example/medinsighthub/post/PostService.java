@@ -1,9 +1,19 @@
 package com.example.medinsighthub.post;
 
+<<<<<<< HEAD:src/main/java/com/example/medinsighthub/post/PostService.java
 import com.example.medinsighthub.cases.CaseRepository;
 import com.example.medinsighthub.comment.CommentDTO;
 import com.example.medinsighthub.comment.CommentRepository;
 import com.example.medinsighthub.user.repositories.DoctorRepository;
+=======
+import com.example.MedInsightHub.cases.CaseRepository;
+import com.example.MedInsightHub.comment.CommentDTO;
+import com.example.MedInsightHub.comment.CommentRepository;
+import com.example.MedInsightHub.like.LikeRepository;
+import com.example.MedInsightHub.post.post_views.PostViews;
+import com.example.MedInsightHub.post.post_views.PostViewsRepository;
+import com.example.MedInsightHub.user.repositories.DoctorRepository;
+>>>>>>> 3c2e4af78cb2a6bc3188f9034532f151b09d0b0a:src/main/java/com/example/MedInsightHub/post/PostService.java
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,10 +35,34 @@ public class PostService {
 
     @Autowired
     private final CommentRepository commentRepository;
+<<<<<<< HEAD:src/main/java/com/example/medinsighthub/post/PostService.java
     @Autowired
+=======
+    private final LikeRepository likeRepository;
+>>>>>>> 3c2e4af78cb2a6bc3188f9034532f151b09d0b0a:src/main/java/com/example/MedInsightHub/post/PostService.java
     private final CaseRepository caseRepository;
+    private final PostViewsRepository postViewsRepository;
 
-    public List<PostDTO> getOpenPosts() {
+    public List<PostDTO> getNotClosedPosts(long doctor_id) {
+        return postRepository.getNotClosedPosts().stream().map(
+                post -> new PostDTO(post.getPost_id(),
+                        post.getDoctor().getUser().getFirstname(),
+                        post.getDoctor().getUser().getLastname(),
+                        post.getTitle(),
+                        post.getPost_type(),
+                        post.getPost_status(),
+                        post.getTags(),
+                        post.getViews_count(),
+                        post.getLikes_count(),
+                        post.getComments_count(),
+                        post.getDate_posted(),
+                        postViewsRepository.getByDoctorAndPost(doctorRepository.findById(doctor_id).orElseThrow(),post).isPresent(),
+                        likeRepository.getLikeByPostCommentAndDoctor(post.getPost_id(),doctorRepository.findById(doctor_id).orElseThrow()).isPresent()
+                )
+        ).collect(Collectors.toList());
+    }
+
+    public List<PostDTO> getOpenPosts(long doctor_id) {
         return postRepository.getOpenPosts().stream().map(
                 post -> new PostDTO(post.getPost_id(),
                         post.getDoctor().getUser().getFirstname(),
@@ -39,12 +74,14 @@ public class PostService {
                         post.getViews_count(),
                         post.getLikes_count(),
                         post.getComments_count(),
-                        post.getDate_posted()
-                        )
+                        post.getDate_posted(),
+                        postViewsRepository.getByDoctorAndPost(doctorRepository.findById(doctor_id).orElseThrow(),post).isPresent(),
+                        likeRepository.getLikeByPostCommentAndDoctor(post.getPost_id(),doctorRepository.findById(doctor_id).orElseThrow()).isPresent()
+                )
         ).collect(Collectors.toList());
     }
 
-    public List<PostDTO> getResolvedPosts() {
+    public List<PostDTO> getResolvedPosts(long doctor_id) {
         return postRepository.getResolvedPosts().stream().map(
                 post -> new PostDTO(post.getPost_id(),
                         post.getDoctor().getUser().getFirstname(),
@@ -56,7 +93,10 @@ public class PostService {
                         post.getViews_count(),
                         post.getLikes_count(),
                         post.getComments_count(),
-                        post.getDate_posted())
+                        post.getDate_posted(),
+                        postViewsRepository.getByDoctorAndPost(doctorRepository.findById(doctor_id).orElseThrow(),post).isPresent(),
+                        likeRepository.getLikeByPostCommentAndDoctor(post.getPost_id(),doctorRepository.findById(doctor_id).orElseThrow()).isPresent()
+                )
         ).collect(Collectors.toList());
     }
 
@@ -72,7 +112,10 @@ public class PostService {
                         post.getViews_count(),
                         post.getLikes_count(),
                         post.getComments_count(),
-                        post.getDate_posted())
+                        post.getDate_posted(),
+                        true,
+                        likeRepository.getLikeByPostCommentAndDoctor(post.getPost_id(),doctorRepository.findById(doctor_id).orElseThrow()).isPresent()
+                )
         ).collect(Collectors.toList());
     }
 
@@ -121,7 +164,12 @@ public class PostService {
         if(isPostOwner(post_id,doctor_id)){
             map.put("case_id",post.getACase().getCase_id());
         }
-
+        Optional<PostViews> postViews = postViewsRepository.getByDoctorAndPost(doctorRepository.findById(doctor_id).orElseThrow(),post);
+        if (postViews.isEmpty()) {
+            PostViews postViews1 = new PostViews(post,doctorRepository.findById(doctor_id).orElseThrow());
+            post.setViews_count(post.getViews_count()+1);
+            postViewsRepository.save(postViews1);
+        }
         return map;
     }
 

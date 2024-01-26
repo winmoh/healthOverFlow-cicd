@@ -1,9 +1,19 @@
 package com.example.medinsighthub.comment;
 
+<<<<<<< HEAD:src/main/java/com/example/medinsighthub/comment/CommentService.java
 import com.example.medinsighthub.post.Post;
 import com.example.medinsighthub.post.PostRepository;
 import com.example.medinsighthub.user.Doctor;
 import com.example.medinsighthub.user.repositories.DoctorRepository;
+=======
+import com.example.MedInsightHub.like.Like;
+import com.example.MedInsightHub.like.LikeRepository;
+import com.example.MedInsightHub.post.Post;
+import com.example.MedInsightHub.post.PostRepository;
+import com.example.MedInsightHub.user.Doctor;
+import com.example.MedInsightHub.user.repositories.DoctorRepository;
+import com.example.MedInsightHub.user.repositories.UserRepository;
+>>>>>>> 3c2e4af78cb2a6bc3188f9034532f151b09d0b0a:src/main/java/com/example/MedInsightHub/comment/CommentService.java
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +27,11 @@ import java.util.stream.Collectors;
 public class CommentService {
     @Autowired
     private final CommentRepository commentRepository;
+<<<<<<< HEAD:src/main/java/com/example/medinsighthub/comment/CommentService.java
     @Autowired
+=======
+    private final LikeRepository likeRepository;
+>>>>>>> 3c2e4af78cb2a6bc3188f9034532f151b09d0b0a:src/main/java/com/example/MedInsightHub/comment/CommentService.java
     private final DoctorRepository doctorRepository;
 
     @Autowired
@@ -128,6 +142,9 @@ public class CommentService {
             deleteComment(reply.getComment_id());
         }
         Comment comment = commentRepository.findById(comment_id).orElseThrow();
+        for(Like like : likeRepository.getLikesByCommentOrPost(comment_id)){
+            likeRepository.delete(like);
+        }
         if (comment.getReply_to()==ReplyTo.Comment) {
             Comment reply_to_comment = commentRepository.findById(comment.getReplying_to_id()).orElseThrow();
             reply_to_comment.setReplies_count(reply_to_comment.getReplies_count()-1);
