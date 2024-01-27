@@ -14,11 +14,11 @@ public class modelController {
 
 
 
-    @PostMapping("/predict")
-    public modelResponse predictCase(@RequestBody MultipartFile image){
+    @PostMapping(value="/predict", consumes = "multipart/form-data")
+    public String predictCase(@RequestPart("image") MultipartFile image){
 
-        modelResponse response=MService.cacerPrediction(image);
-        return response;
+        return "result:"+MService.cacerPrediction(image).getClass_name()+"Confidence: "+MService.cacerPrediction(image).getConfidence_score();
+
 
 
     }
