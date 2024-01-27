@@ -1,7 +1,7 @@
 pipeline{
     agent any
     stages{
-        stage('starting postgres databse container'){
+        stage('starting postgres database container'){
             steps{
                 sh  "docker start bb2cb28b729a"
 
